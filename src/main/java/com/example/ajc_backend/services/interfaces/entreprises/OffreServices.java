@@ -28,22 +28,4 @@ public interface OffreServices {
         Optional<OffreEmplois> find_offre(Long oid_offre);
 
         List<OffreEmplois> list_offre(EntrepriseAccount entrepriseAccount);
-
-        // Missions services
-        MessageResponse delete_mission(MissionsOffre missionsOffre);
-
-        MessageResponse Create_mission(MissionsOffre missionsOffre);
-
-        MessageResponse update_mission(MissionsOffre missionsOffre);
-
-        List<MissionsOffre> list_mission(OffreEmplois offreEmplois);
-
-        // Competence Services
-        MessageResponse Create_competence(CompetenceOffre competenceOffre);
-
-        MessageResponse update_competence(CompetenceOffre competenceOffre);
-
-        MessageResponse delete_competence(CompetenceOffre competenceOffre);
-
-        List<CompetenceOffre> list_competence(OffreEmplois offreEmplois);
 }

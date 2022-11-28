@@ -16,13 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.ajc_backend.MessageResponse;
 import com.example.ajc_backend.dao.EntrepriseAccountRepository;
-import com.example.ajc_backend.dao.PaysRepository;
 import com.example.ajc_backend.dao.RespoEntrepriseRepository;
-import com.example.ajc_backend.dao.VillesRepository;
+import com.example.ajc_backend.dao.UsersRepository;
 import com.example.ajc_backend.entites.EntrepriseAccount;
-import com.example.ajc_backend.entites.Pays;
 import com.example.ajc_backend.entites.RespoEntreprise;
-import com.example.ajc_backend.entites.Villes;
+import com.example.ajc_backend.entites.Users;
 import com.example.ajc_backend.services.interfaces.entreprises.EntrpriseAccountService;
 
 @Service
@@ -33,36 +31,30 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
     @Autowired
     RespoEntrepriseRepository respoEntrepriseRepository;
     @Autowired
-    PaysRepository paysRepository;
-    @Autowired
-    VillesRepository villesRepository;
+    UsersRepository usersRepository;
 
     @Override
     @Transactional
     public MessageResponse create_entreprise(EntrepriseAccount entrepriseAccount,
-            List<RespoEntreprise> respoEntreprises, Pays pays, MultipartFile logo) throws IOException {
+            List<RespoEntreprise> respoEntreprises, Users users, MultipartFile logo) throws IOException {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
         LocalDateTime now = LocalDateTime.now();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if (!entrepriseAccountRepository.findByEntrepriseId(entrepriseAccount.getEntrepriseId()).isEmpty()) {
+        if (!usersRepository.findByIdentifiant(users.getIdentifiant()).isEmpty()) {
             return new MessageResponse("Cet identifiant est deja utiliser", false);
         }
 
-        // Sate countries
-        pays.setName(pays.getName());
-        Pays new_pays = paysRepository.save(pays);
-
-        // Save ville
-        Villes villes = new Villes();
-        villes.setName(entrepriseAccount.getVilles().getName());
-        villes.setPays(new_pays);
-        Villes new_ville = villesRepository.save(villes);
+        // Save users
+        users.setIdentifiant(users.getIdentifiant());
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        users.setRole(users.getRole());
+        Users new_user = usersRepository.save(users);
 
         // Upload logo
         int index = logo.getOriginalFilename().lastIndexOf('.');
         String extension = logo.getOriginalFilename().substring(index + 1);
-        String filename = "ajsearch_logo_" + entrepriseAccount.getEntrepriseId() + "_" + entrepriseAccount.getName()
+        String filename = "ajsearch_logo_" + new_user.getOid() + "_" + entrepriseAccount.getName()
                 + "_"
                 + dtf.format(now).toString() + "." + extension;
         byte[] bytes = logo.getBytes();
@@ -74,13 +66,12 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
         entrepriseAccount.setAnother_activitySector(entrepriseAccount.getAnother_activitySector());
         entrepriseAccount.setActivitySectors(entrepriseAccount.getActivitySectors());
         entrepriseAccount.setCreated_at(dtf.format(now));
-        entrepriseAccount.setEntrepriseId(entrepriseAccount.getEntrepriseId());
         entrepriseAccount.setLogo(filename);
         entrepriseAccount.setName(entrepriseAccount.getName());
-        entrepriseAccount.setPassword(passwordEncoder.encode(entrepriseAccount.getPassword()));
-        entrepriseAccount.setRe_password(null);
         entrepriseAccount.setSocial_reason(entrepriseAccount.getSocial_reason());
-        entrepriseAccount.setVilles(new_ville);
+        entrepriseAccount.setVille(entrepriseAccount.getVille());
+        entrepriseAccount.setPays(entrepriseAccount.getPays());
+        entrepriseAccount.setUsers(new_user);
         EntrepriseAccount new_entreprise = entrepriseAccountRepository.save(entrepriseAccount);
 
         // Save Responsable entreprise
@@ -103,25 +94,21 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
     @Override
     @Transactional
     public MessageResponse create_entreprise_withoutLogo(EntrepriseAccount entrepriseAccount,
-            List<RespoEntreprise> respoEntreprises, Pays pays) {
+            List<RespoEntreprise> respoEntreprises, Users users) {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
         LocalDateTime now = LocalDateTime.now();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if (!entrepriseAccountRepository.findByEntrepriseId(entrepriseAccount.getEntrepriseId()).isEmpty()) {
+        if (!usersRepository.findByIdentifiant(users.getIdentifiant()).isEmpty()) {
             return new MessageResponse("Cet identifiant est deja utiliser", false);
         }
 
-        // Sate countries
-        pays.setName(pays.getName());
-        Pays new_pays = paysRepository.save(pays);
-
-        // Save ville
-        Villes villes = new Villes();
-        villes.setName(entrepriseAccount.getVilles().getName());
-        villes.setPays(new_pays);
-        Villes new_ville = villesRepository.save(villes);
+        // Save users
+        users.setIdentifiant(users.getIdentifiant());
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        users.setRole(users.getRole());
+        Users new_user = usersRepository.save(users);
 
         // Save entreprise
         entrepriseAccount.setAdress(entrepriseAccount.getAdress());
@@ -129,13 +116,12 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
         entrepriseAccount.setActivitySectors(entrepriseAccount.getActivitySectors());
         entrepriseAccount.setCreated_at(dtf.format(now));
         entrepriseAccount.setUpdated_at(dtf.format(now));
-        entrepriseAccount.setEntrepriseId(entrepriseAccount.getEntrepriseId());
         entrepriseAccount.setLogo(null);
         entrepriseAccount.setName(entrepriseAccount.getName());
-        entrepriseAccount.setPassword(passwordEncoder.encode(entrepriseAccount.getPassword()));
-        entrepriseAccount.setRe_password(null);
         entrepriseAccount.setSocial_reason(entrepriseAccount.getSocial_reason());
-        entrepriseAccount.setVilles(new_ville);
+        entrepriseAccount.setVille(entrepriseAccount.getVille());
+        entrepriseAccount.setPays(entrepriseAccount.getPays());
+        entrepriseAccount.setUsers(new_user);
         EntrepriseAccount new_entreprise = entrepriseAccountRepository.save(entrepriseAccount);
 
         // Save Responsable entreprise
@@ -159,28 +145,25 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
     @Override
     @Transactional
     public MessageResponse update_entreprise(EntrepriseAccount entrepriseAccount,
-            List<RespoEntreprise> respoEntreprises, Pays pays, MultipartFile logo) throws IOException {
+            List<RespoEntreprise> respoEntreprises, Users users, MultipartFile logo) throws IOException {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
         LocalDateTime now = LocalDateTime.now();
-        Optional<EntrepriseAccount> get_entreprise = entrepriseAccountRepository.findById(entrepriseAccount.getOid());
+        Optional<Users> get_user = usersRepository.findById(users.getOid());
 
-        if (get_entreprise.isPresent()) {
-            if (!entrepriseAccountRepository.findByEntrepriseId(entrepriseAccount.getEntrepriseId()).isEmpty()) {
+        if (get_user.isPresent()) {
+            if (!usersRepository.findByIdentifiant(users.getIdentifiant()).isEmpty()) {
                 return new MessageResponse("Cet identifiant est deja utiliser", false);
             }
 
-            entrepriseAccountRepository.deleteByVilles(get_entreprise.get().getVilles());
-            // Update ville
-            Villes villes = new Villes();
-            villes.setName(entrepriseAccount.getVilles().getName());
-            villes.setPays(pays);
-            Villes new_ville = villesRepository.save(villes);
+            // update Users
+            get_user.get().setIdentifiant(users.getIdentifiant());
+            usersRepository.save(get_user.get());
 
             // Upload logo
             int index = logo.getOriginalFilename().lastIndexOf('.');
             String extension = logo.getOriginalFilename().substring(index + 1);
-            String filename = "ajsearch_logo_" + entrepriseAccount.getEntrepriseId() + "_"
+            String filename = "ajsearch_logo_" + users.getOid() + "_"
                     + entrepriseAccount.getName()
                     + "_"
                     + dtf.format(now).toString() + "." + extension;
@@ -189,18 +172,18 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
             Files.write(Paths.get(insPath), bytes);
 
             // Update entreprise
+            Optional<EntrepriseAccount> get_entreprise = entrepriseAccountRepository
+                    .findById(entrepriseAccount.getOid());
             get_entreprise.get().setAdress(entrepriseAccount.getAdress());
             get_entreprise.get().setAnother_activitySector(entrepriseAccount.getAnother_activitySector());
             get_entreprise.get().setActivitySectors(entrepriseAccount.getActivitySectors());
             get_entreprise.get().setCreated_at(dtf.format(now));
             get_entreprise.get().setUpdated_at(dtf.format(now));
-            get_entreprise.get().setEntrepriseId(entrepriseAccount.getEntrepriseId());
             get_entreprise.get().setLogo(filename);
             get_entreprise.get().setName(entrepriseAccount.getName());
-            get_entreprise.get().setPassword(entrepriseAccount.getPassword());
-            get_entreprise.get().setRe_password(null);
             get_entreprise.get().setSocial_reason(entrepriseAccount.getSocial_reason());
-            entrepriseAccount.setVilles(new_ville);
+            get_entreprise.get().setVille(entrepriseAccount.getVille());
+            get_entreprise.get().setPays(entrepriseAccount.getAdress());
             entrepriseAccountRepository.save(get_entreprise.get());
 
             // Update Responsable entreprise
@@ -229,37 +212,34 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
     @Override
     @Transactional
     public MessageResponse update_entreprise_withoutLogo(EntrepriseAccount entrepriseAccount,
-            List<RespoEntreprise> respoEntreprises, Pays pays) {
+            List<RespoEntreprise> respoEntreprises, Users users) {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
         LocalDateTime now = LocalDateTime.now();
-        Optional<EntrepriseAccount> get_entreprise = entrepriseAccountRepository.findById(entrepriseAccount.getOid());
+        Optional<Users> get_user = usersRepository.findById(users.getOid());
 
-        if (get_entreprise.isPresent()) {
-            if (!entrepriseAccountRepository.findByEntrepriseId(entrepriseAccount.getEntrepriseId()).isEmpty()) {
+        if (get_user.isPresent()) {
+            if (!usersRepository.findByIdentifiant(users.getIdentifiant()).isEmpty()) {
                 return new MessageResponse("Cet identifiant est deja utiliser", false);
             }
 
-            entrepriseAccountRepository.deleteByVilles(get_entreprise.get().getVilles());
-            // Update ville
-            Villes villes = new Villes();
-            villes.setName(entrepriseAccount.getVilles().getName());
-            villes.setPays(pays);
-            Villes new_ville = villesRepository.save(villes);
+            // update Users
+            get_user.get().setIdentifiant(users.getIdentifiant());
+            usersRepository.save(get_user.get());
 
             // Update entreprise
+            Optional<EntrepriseAccount> get_entreprise = entrepriseAccountRepository
+                    .findById(entrepriseAccount.getOid());
             get_entreprise.get().setAdress(entrepriseAccount.getAdress());
             get_entreprise.get().setAnother_activitySector(entrepriseAccount.getAnother_activitySector());
             get_entreprise.get().setActivitySectors(entrepriseAccount.getActivitySectors());
             get_entreprise.get().setCreated_at(dtf.format(now));
             get_entreprise.get().setUpdated_at(dtf.format(now));
-            get_entreprise.get().setEntrepriseId(entrepriseAccount.getEntrepriseId());
             get_entreprise.get().setLogo(entrepriseAccount.getLogo());
             get_entreprise.get().setName(entrepriseAccount.getName());
-            get_entreprise.get().setPassword(entrepriseAccount.getPassword());
-            get_entreprise.get().setRe_password(null);
             get_entreprise.get().setSocial_reason(entrepriseAccount.getSocial_reason());
-            entrepriseAccount.setVilles(new_ville);
+            get_entreprise.get().setVille(entrepriseAccount.getVille());
+            get_entreprise.get().setPays(entrepriseAccount.getAdress());
             entrepriseAccountRepository.save(get_entreprise.get());
 
             // Update Responsable entreprise
@@ -291,14 +271,13 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
     }
 
     @Override
-    public MessageResponse change_password(EntrepriseAccount entrepriseAccount) {
+    public MessageResponse change_password(Users users) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        Optional<EntrepriseAccount> get_entreprise = entrepriseAccountRepository
-                .findByEntrepriseId(entrepriseAccount.getEntrepriseId());
-        if (get_entreprise.isPresent()) {
-            if (passwordEncoder.matches(entrepriseAccount.getPassword(), get_entreprise.get().getPassword())) {
-                get_entreprise.get().setPassword(passwordEncoder.encode(entrepriseAccount.getRe_password()));
-                entrepriseAccountRepository.save(get_entreprise.get());
+        Optional<Users> get_user = usersRepository.findById(users.getOid());
+        if (get_user.isPresent()) {
+            if (passwordEncoder.matches(users.getPassword(), get_user.get().getPassword())) {
+                get_user.get().setPassword(passwordEncoder.encode(users.getRe_password()));
+                usersRepository.save(get_user.get());
                 return new MessageResponse("Mot de passe mit a jour avec success", true);
             } else {
                 return new MessageResponse("Mot de passe different", false);

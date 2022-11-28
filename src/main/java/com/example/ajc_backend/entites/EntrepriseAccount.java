@@ -7,13 +7,18 @@ import lombok.ToString;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -29,22 +34,21 @@ public class EntrepriseAccount implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long oid;
     private String name;
-    private String entrepriseId;
-    private String password;
-    private String re_password;
     private String social_reason;
     private String another_activitySector;
     private String adress;
+    private String pays;
+    private String ville;
     private boolean state;
     private boolean isDelete;
     private String logo;
-    private String role;
     private String created_at;
     private String updated_at;
     @ManyToOne
     private ActivitySectors activitySectors;
-    @ManyToOne
-    private Villes villes;
+    @JsonProperty(access=Access.WRITE_ONLY)
+    @OneToOne(cascade = CascadeType.ALL)
+    private Users users;
     @JsonIgnore
     @OneToMany(mappedBy = "entrepriseAccount")
     Collection<RespoEntreprise> respoEntreprises;

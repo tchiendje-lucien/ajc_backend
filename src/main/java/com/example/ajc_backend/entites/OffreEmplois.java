@@ -27,15 +27,16 @@ public class OffreEmplois implements Serializable {
     private boolean state;
     private boolean isDelete;
     private String dateline;
+    private String pays;
+    private String ville;
     private String typeEmploi;
     private String image;
     private String typeContrat;
+    private String role;
     private String created_at;
     private String update_at;
     @ManyToOne
     private ActivitySectors activitySectors;
-    @ManyToOne
-    private Villes villes;
     @ManyToOne
     private EntrepriseAccount entrepriseAccount;
     @JsonIgnore

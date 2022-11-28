@@ -21,22 +21,22 @@ public class SettingsController {
     @Autowired
     SettingsService settingsService;
 
-    @PostMapping(path = "create_ActivitySector")
+    @PostMapping(path = "/create_ActivitySector")
     public MessageResponse create_ActivitySector(@RequestBody ActivitySectors activitySectors) {
         return settingsService.create_ActivitySector(activitySectors);
     }
 
-    @PutMapping(path = "update_ActivitySector")
+    @PutMapping(path = "/update_ActivitySector")
     public MessageResponse update_ActivitySector(@RequestBody ActivitySectors activitySectors) {
         return settingsService.update_ActivitySector(activitySectors);
     }
 
-    @GetMapping(path = "list_ActivitySector")
+    @GetMapping(path = "/list_ActivitySector")
     public List<ActivitySectors> list_ActivitySector() {
         return settingsService.list_ActivitySector();
     }
 
-    @GetMapping(path = "getCountriesListInAlphabetical")
+    @GetMapping(path = "/getCountriesListInAlphabetical")
     public List<String> getCountriesListInAlphabetical() {
         return settingsService.getCountriesListInAlphabetical();
     }

@@ -63,7 +63,8 @@ public class OffresImplement implements OffreServices {
         offreEmplois.setTitle(offreEmplois.getTitle());
         offreEmplois.setTypeContrat(offreEmplois.getTypeContrat());
         offreEmplois.setTypeEmploi(offreEmplois.getTypeEmploi());
-        offreEmplois.setVilles(offreEmplois.getVilles());
+        offreEmplois.setVille(offreEmplois.getVille());
+        offreEmplois.setPays(offreEmplois.getPays());
         offreEmplois.setImage(filename);
         OffreEmplois new_offre = offreEmploisRepository.save(offreEmplois);
 
@@ -101,7 +102,8 @@ public class OffresImplement implements OffreServices {
         offreEmplois.setTitle(offreEmplois.getTitle());
         offreEmplois.setTypeContrat(offreEmplois.getTypeContrat());
         offreEmplois.setTypeEmploi(offreEmplois.getTypeEmploi());
-        offreEmplois.setVilles(offreEmplois.getVilles());
+        offreEmplois.setVille(offreEmplois.getVille());
+        offreEmplois.setPays(offreEmplois.getPays());
         offreEmplois.setImage(null);
         OffreEmplois new_offre = offreEmploisRepository.save(offreEmplois);
 
@@ -149,7 +151,8 @@ public class OffresImplement implements OffreServices {
             get_offre.get().setTypeContrat(offreEmplois.getTypeContrat());
             get_offre.get().setTypeEmploi(offreEmplois.getTypeEmploi());
             get_offre.get().setUpdate_at(dtf.format(now));
-            get_offre.get().setVilles(offreEmplois.getVilles());
+            get_offre.get().setVille(offreEmplois.getVille());
+            get_offre.get().setPays(offreEmplois.getPays());
             offreEmploisRepository.save(get_offre.get());
             return new MessageResponse("Offres modifier avec success", true);
 
@@ -175,7 +178,8 @@ public class OffresImplement implements OffreServices {
             get_offre.get().setTypeContrat(offreEmplois.getTypeContrat());
             get_offre.get().setTypeEmploi(offreEmplois.getTypeEmploi());
             get_offre.get().setUpdate_at(dtf.format(now));
-            get_offre.get().setVilles(offreEmplois.getVilles());
+            get_offre.get().setVille(offreEmplois.getVille());
+            get_offre.get().setPays(offreEmplois.getPays());
             offreEmploisRepository.save(get_offre.get());
             return new MessageResponse("Offres modifier avec success", true);
 
@@ -192,65 +196,6 @@ public class OffresImplement implements OffreServices {
     @Override
     public List<OffreEmplois> list_offre(EntrepriseAccount entrepriseAccount) {
         return offreEmploisRepository.findByEntrepriseAccount(entrepriseAccount);
-    }
-
-    @Override
-    public MessageResponse delete_mission(MissionsOffre missionsOffre) {
-        missionsOffreRepository.deleteById(missionsOffre.getOid());
-        return new MessageResponse("La mission a été supprimer avec success", true);
-    }
-
-    @Override
-    public MessageResponse Create_mission(MissionsOffre missionsOffre) {
-        missionsOffreRepository.save(missionsOffre);
-        return new MessageResponse("La mission creer avec success", true);
-    }
-
-    @Override
-    public MessageResponse update_mission(MissionsOffre missionsOffre) {
-        Optional<MissionsOffre> get_mission = missionsOffreRepository.findById(missionsOffre.getOid());
-        if (get_mission.isPresent()) {
-            get_mission.get().setName(missionsOffre.getName());
-            missionsOffreRepository.save(get_mission.get());
-            return new MessageResponse("Mission modifiée avec success", true);
-        } else {
-            return new MessageResponse("La missionre cherchée n'existe pas", false);
-        }
-    }
-
-    @Override
-    public List<MissionsOffre> list_mission(OffreEmplois offreEmplois) {
-        return missionsOffreRepository.findByOffreEmplois(offreEmplois);
-    }
-
-    @Override
-    public MessageResponse Create_competence(CompetenceOffre competenceOffre) {
-        competenceOffre.setName(competenceOffre.getName());
-        competenceOffreRepository.save(competenceOffre);
-        return new MessageResponse("Competence creer avec success", true);
-    }
-
-    @Override
-    public MessageResponse update_competence(CompetenceOffre competenceOffre) {
-        Optional<CompetenceOffre> get_competence = competenceOffreRepository.findById(competenceOffre.getOid());
-        if (get_competence.isPresent()) {
-            get_competence.get().setName(competenceOffre.getName());
-            competenceOffreRepository.save(get_competence.get());
-            return new MessageResponse("Competence modifier avec success", true);
-        } else {
-            return new MessageResponse("La competence recherchée n'existe pas", false);
-        }
-    }
-
-    @Override
-    public MessageResponse delete_competence(CompetenceOffre competenceOffre) {
-        competenceOffreRepository.deleteById(competenceOffre.getOid());
-        return new MessageResponse("Competence supprimée avec success", true);
-    }
-
-    @Override
-    public List<CompetenceOffre> list_competence(OffreEmplois offreEmplois) {
-        return competenceOffreRepository.findByOffreEmplois(offreEmplois);
     }
 
 }
