@@ -3,6 +3,7 @@ package com.example.ajc_backend.services.implementations.candidat;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,11 @@ import org.springframework.stereotype.Service;
 import com.example.ajc_backend.dao.CandidatRepository;
 import com.example.ajc_backend.entites.Candidat;
 import com.example.ajc_backend.services.interfaces.candidat.CandidatService;
+import com.google.gson.Gson;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Service
 public class Candidatserviceimplementation implements CandidatService{
@@ -38,7 +44,14 @@ public class Candidatserviceimplementation implements CandidatService{
 		candidat2.get().setCivilite(candidat.getCivilite());
 		candidat2.get().setEmail(candidat.getEmail());
 		candidat2.get().setNom(candidat.getNom());
-		candidat2.get().setPassword(bCryptPasswordEncoder.encode(candidat.getPassword()));
+		candidat2.get().setPrenom(candidat.getPrenom());
+		//candidat2.get().setPassword(bCryptPasswordEncoder.encode(candidat.getPassword()));
+		candidat2.get().setDatenaissance(candidat.getDatenaissance());
+		candidat2.get().setLieumaissance(candidat.getLieumaissance());
+		candidat2.get().setPays(candidat.getPays());
+		candidat2.get().setVille(candidat.getVille());
+		candidat2.get().setTelephone1(candidat.getTelephone1());
+		candidat2.get().setTelephone2(candidat.getTelephone2());
 		return candidatRepository.save(candidat2.get());
 	}
 
@@ -73,5 +86,30 @@ public class Candidatserviceimplementation implements CandidatService{
 		// TODO Auto-generated method stub
 		return candidatRepository.findByUsername(username);
 	}
+
+	@Override
+	public Candidat tokenUser(String jwtToken) {
+		Gson g = new Gson();
+        jwtToken = jwtToken.replace("Bearer ", "");
+        String[] split_string = jwtToken.split("\\.");
+        String base64EncodedBody = split_string[1];
+        Base64 base64Url = new Base64(true);
+        String body = new String(base64Url.decode(base64EncodedBody));
+        User user = g.fromJson(body, User.class);
+        // System.out.println("JWT Body : " + user.getSub());
+        return candidatRepository.findByUsername(user.getSub());
+	}
+
+}
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+class User {
+
+    private String sub;
+    private String[] roles;
+    private String iss;
+    private String exp;
 
 }

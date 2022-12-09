@@ -21,9 +21,9 @@ public class Competence {
     
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long oid;
-	@Column(length=100, nullable=false)
+	@Column(length=100)
 	private String domaine;
-	@Column(length=500, nullable=false)
+	@Column(length=500)
 	private String detail;
 	@ManyToOne
 	@JsonProperty(access=Access.WRITE_ONLY)

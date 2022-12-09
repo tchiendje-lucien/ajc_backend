@@ -28,7 +28,7 @@ public class Competenceserviceimplementation implements CompetenceService{
 		Optional<Competence> competence2 = competenceRepository.findById(competence.getOid());
 		competence2.get().setDetail(competence.getDetail());
 		competence2.get().setDomaine(competence.getDomaine());
-		competence2.get().setCandidat(competence.getCandidat());
+		//competence2.get().setCandidat(competence.getCandidat());
 		return competenceRepository.save(competence2.get());
 	}
 

@@ -28,6 +28,7 @@ public class Scolariteserviceimplementation implements ScolariteService{
 		scolarite2.get().setDatedebut(scolarite.getDatedebut());
 		scolarite2.get().setDatefin(scolarite.getDatefin());
 		scolarite2.get().setDomaine(scolarite.getDomaine());
+		scolarite2.get().setSpecialite(scolarite.getSpecialite());
 		scolarite2.get().setNiveau(scolarite.getNiveau());
 		scolarite2.get().setPays(scolarite.getPays());
 		scolarite2.get().setVille(scolarite.getVille());
