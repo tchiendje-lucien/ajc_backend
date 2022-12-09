@@ -22,7 +22,7 @@ public class SettingsImplement implements SettingsService {
 
     @Override
     public MessageResponse create_ActivitySector(ActivitySectors activitySectors) {
-        if (!activitySectorsRepository.findByName(activitySectors.getName()).isEmpty()) {
+        if (activitySectorsRepository.findByName(activitySectors.getName()).isPresent()) {
             return new MessageResponse("Ce nom est deja utiliser", false);
         }
         activitySectorsRepository.save(activitySectors);
@@ -31,7 +31,7 @@ public class SettingsImplement implements SettingsService {
 
     @Override
     public MessageResponse update_ActivitySector(ActivitySectors activitySectors) {
-        if (!activitySectorsRepository.findByName(activitySectors.getName()).isEmpty()) {
+        if (activitySectorsRepository.findByName(activitySectors.getName()).isPresent()) {
             return new MessageResponse("Ce nom est deja utiliser", false);
         }
         Optional<ActivitySectors> get_activitySector = activitySectorsRepository.findById(activitySectors.getOid());
@@ -60,44 +60,43 @@ public class SettingsImplement implements SettingsService {
         Collections.sort(crunchifyList);
         // ListIterator<String> crunchifyListIterator = crunchifyList.listIterator();
         // while (crunchifyListIterator.hasNext()) {
-        //     System.out.println(crunchifyListIterator.next());
+        // System.out.println(crunchifyListIterator.next());
         // }
         return crunchifyList;
     }
 
-
-
     // @Override
     // public List<String> getCountriesListInAlphabetical() {
-    //     List<String> crunchifyList = new ArrayList<String>();
-    //     String[] locales = Locale.getISOCountries();
-    //     for (int i=0; i < locales.length; i++) {
-    //         Locale obj = new Locale("", locales[i]);
-    //         crunchifyList.add(i, obj.getDisplayCountry());
-    //     }
+    // List<String> crunchifyList = new ArrayList<String>();
+    // String[] locales = Locale.getISOCountries();
+    // for (int i=0; i < locales.length; i++) {
+    // Locale obj = new Locale("", locales[i]);
+    // crunchifyList.add(i, obj.getDisplayCountry());
+    // }
 
-    //     // sort(): Sorts the specified list into ascending order,
-    //     // according to the natural ordering of its elements.
-    //     // All elements in the list must implement the Comparable interface.
-    //     // Furthermore,
-    //     // all elements in the list must be mutually comparable
-    //     // (that is, e1.compareTo(e2) must not throw a ClassCastException for any
-    //     // elements e1 and e2 in the list).
-    //    // Collections.sort(crunchifyList);
+    // // sort(): Sorts the specified list into ascending order,
+    // // according to the natural ordering of its elements.
+    // // All elements in the list must implement the Comparable interface.
+    // // Furthermore,
+    // // all elements in the list must be mutually comparable
+    // // (that is, e1.compareTo(e2) must not throw a ClassCastException for any
+    // // elements e1 and e2 in the list).
+    // // Collections.sort(crunchifyList);
 
-    //     // listIterator(): Returns a list iterator over the elements in this list (in
-    //     // proper sequence).
-    //     ListIterator<String> crunchifyListIterator = crunchifyList.listIterator();
-    //     while (crunchifyListIterator.hasNext()) {
+    // // listIterator(): Returns a list iterator over the elements in this list (in
+    // // proper sequence).
+    // ListIterator<String> crunchifyListIterator = crunchifyList.listIterator();
+    // while (crunchifyListIterator.hasNext()) {
 
-    //         // next(): Returns the next element in the list and advances the cursor
-    //         // position. This method may be called repeatedly to iterate through the list,
-    //         // or intermixed with calls to previous to go back and forth.
-    //         // (Note that alternating calls to next and previous will return the same
-    //         // element repeatedly.)
-    //         //System.out.println(crunchifyListIterator.next());
-    //     }
-    //     return crunchifyList;
+    // // next(): Returns the next element in the list and advances the cursor
+    // // position. This method may be called repeatedly to iterate through the
+    // list,
+    // // or intermixed with calls to previous to go back and forth.
+    // // (Note that alternating calls to next and previous will return the same
+    // // element repeatedly.)
+    // //System.out.println(crunchifyListIterator.next());
+    // }
+    // return crunchifyList;
     // }
 
 }

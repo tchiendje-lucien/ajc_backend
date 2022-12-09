@@ -41,7 +41,7 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
         LocalDateTime now = LocalDateTime.now();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if (!usersRepository.findByIdentifiant(users.getIdentifiant()).isEmpty()) {
+        if (usersRepository.findByIdentifiant(users.getIdentifiant()).isPresent()) {
             return new MessageResponse("Cet identifiant est deja utiliser", false);
         }
 
@@ -100,7 +100,7 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
         LocalDateTime now = LocalDateTime.now();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if (!usersRepository.findByIdentifiant(users.getIdentifiant()).isEmpty()) {
+        if (usersRepository.findByIdentifiant(users.getIdentifiant()).isPresent()) {
             return new MessageResponse("Cet identifiant est deja utiliser", false);
         }
 
@@ -152,7 +152,7 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
         Optional<Users> get_user = usersRepository.findById(users.getOid());
 
         if (get_user.isPresent()) {
-            if (!usersRepository.findByIdentifiant(users.getIdentifiant()).isEmpty()) {
+            if (usersRepository.findByIdentifiant(users.getIdentifiant()).isPresent()) {
                 return new MessageResponse("Cet identifiant est deja utiliser", false);
             }
 
@@ -219,7 +219,7 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
         Optional<Users> get_user = usersRepository.findById(users.getOid());
 
         if (get_user.isPresent()) {
-            if (!usersRepository.findByIdentifiant(users.getIdentifiant()).isEmpty()) {
+            if (usersRepository.findByIdentifiant(users.getIdentifiant()).isPresent()) {
                 return new MessageResponse("Cet identifiant est deja utiliser", false);
             }
 

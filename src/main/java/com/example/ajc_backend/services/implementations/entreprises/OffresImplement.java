@@ -139,7 +139,7 @@ public class OffresImplement implements OffreServices {
     @Override
     public MessageResponse update_offre(OffreEmplois offreEmplois, MultipartFile image) throws IOException {
         Optional<OffreEmplois> get_offre = offreEmploisRepository.findById(offreEmplois.getOid());
-        if (!get_offre.isEmpty()) {
+        if (get_offre.isPresent()) {
             // Upload image
             int index = image.getOriginalFilename().lastIndexOf('.');
             String extension = image.getOriginalFilename().substring(index + 1);
@@ -175,7 +175,7 @@ public class OffresImplement implements OffreServices {
     @Override
     public MessageResponse update_withoutImage(OffreEmplois offreEmplois) {
         Optional<OffreEmplois> get_offre = offreEmploisRepository.findById(offreEmplois.getOid());
-        if (!get_offre.isEmpty()) {
+        if (get_offre.isPresent()) {
 
             // Update offre
             get_offre.get().setActivitySectors(offreEmplois.getActivitySectors());
@@ -251,7 +251,7 @@ public class OffresImplement implements OffreServices {
     @Override
     public MessageResponse supprimer_offre(OffreEmplois offreEmplois) {
         Optional<OffreEmplois> get_offre = offreEmploisRepository.findById(offreEmplois.getOid());
-        if (!get_offre.isEmpty()) {
+        if (get_offre.isPresent()) {
             get_offre.get().setDelete(true);
             get_offre.get().setUpdate_at(dtf.format(now));
             offreEmploisRepository.save(get_offre.get());
