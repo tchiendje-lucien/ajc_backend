@@ -55,5 +55,5 @@ public class Candidat {
 	private Collection<Scolarite> scolarite;
 	@JsonIgnore
     @OneToMany(mappedBy = "candidat")
-    Collection<PostulerOffre> postulerOffres;
+    private Collection<PostulerOffre> postulerOffres;
 }
