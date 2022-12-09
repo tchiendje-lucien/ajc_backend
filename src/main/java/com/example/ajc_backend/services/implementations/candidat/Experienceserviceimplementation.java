@@ -29,9 +29,11 @@ public class Experienceserviceimplementation implements ExperienceService{
 		experiencepro2.get().setDatedebut(experiencepro.getDatedebut());
 		experiencepro2.get().setDatefin(experiencepro.getDatefin());
 		experiencepro2.get().setEntreprise(experiencepro.getEntreprise());
-		experiencepro2.get().setOccupation(experiencepro.getOccupation());
+		experiencepro2.get().setDuree(experiencepro.getDuree());
 		experiencepro2.get().setPoste(experiencepro.getPoste());
 		experiencepro2.get().setTache(experiencepro.getTache());
+		experiencepro2.get().setPays(experiencepro.getPays());
+		experiencepro2.get().setVille(experiencepro.getVille());
 		return experiencerepository.save(experiencepro2.get());
 	}
 

@@ -21,9 +21,9 @@ public class Loisir {
     
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long oid;
-	@Column(length=25, nullable=false)
-	private String libelle;
 	@Column(length=250, nullable=false)
+	private String loisir;
+	@Column(length=250)
 	private String detail;
 	@ManyToOne
 	@JsonProperty(access=Access.WRITE_ONLY)

@@ -27,8 +27,9 @@ public class Langueserviceimplementation implements LangueService{
 		// TODO Auto-generated method stub
 		Optional<Langue> langue2 = langueRepository.findById(langue.getOid());
 		langue2.get().setLangue(langue.getLangue());
-		langue2.get().setNiveau(langue.getNiveau());
-		langue2.get().setType(langue.getType());
+		langue2.get().setEcrit(langue.getEcrit());
+		langue2.get().setLue(langue.getLue());
+		langue2.get().setParle(langue.getParle());
 		return langueRepository.save(langue2.get());
 	}
 

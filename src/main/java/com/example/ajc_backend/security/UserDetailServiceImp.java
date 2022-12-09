@@ -25,12 +25,16 @@ public class UserDetailServiceImp implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
+		System.out.println("JWT = 6");
 		Candidat candidat=candidatService.loadByUserName(username);
 		if(candidat==null) throw new UsernameNotFoundException("invalid user");
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority(candidat.getRole()));
 		
 		return new User(candidat.getEmail(),candidat.getPassword(),authorities);
+		
+		
+	
 	}
 
 }

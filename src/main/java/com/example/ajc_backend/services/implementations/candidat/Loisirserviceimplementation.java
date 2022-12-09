@@ -27,7 +27,7 @@ public class Loisirserviceimplementation implements LosirService{
 		// TODO Auto-generated method stub
 		Optional<Loisir> loisir2 = loisirRepository.findById(loisir.getOid());
 		loisir2.get().setDetail(loisir.getDetail());
-		loisir2.get().setLibelle(loisir.getLibelle());
+		loisir2.get().setLoisir(loisir.getLoisir());
 		return loisirRepository.save(loisir2.get());
 	}
 

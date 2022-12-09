@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -24,11 +25,15 @@ public class Scolarite {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long oid;
 	@Column(nullable=false)
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date datedebut;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date datefin;
 	@Column(length=100, nullable=false)
 	private String domaine;
-	@Column(length=15, nullable=false)
+	@Column(length=100)
+	private String specialite;
+	@Column(length=50, nullable=false)
 	private String niveau;
 	@Column(nullable=false)
 	private String pays;

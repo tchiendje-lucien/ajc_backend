@@ -23,10 +23,12 @@ public class Langue {
 	private Long oid;
 	@Column(length=20, nullable=false)
 	private String langue;
-	@Column(length=10, nullable=false)
-	private String niveau;
 	@Column(nullable=false)
-	private String type;
+	private String parle;
+	@Column(nullable=false)
+	private String lue;
+	@Column(nullable=false)
+	private String ecrit;
 	@ManyToOne
 	@JsonProperty(access=Access.WRITE_ONLY)
 	private Candidat candidat;

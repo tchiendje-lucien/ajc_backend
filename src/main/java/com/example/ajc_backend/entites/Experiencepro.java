@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -24,10 +25,16 @@ public class Experiencepro {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long oid;
 	@Column(nullable=false)
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date datedebut;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date datefin;
 	@Column(nullable=false)
-	private String occupation;
+	private Integer duree;
+	@Column(nullable=false)
+	private String pays;
+	@Column(nullable=false)
+	private String ville;
 	@Column(nullable=false)
 	private String entreprise;
 	@Column(nullable=false)

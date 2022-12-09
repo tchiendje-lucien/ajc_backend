@@ -1,7 +1,6 @@
 package com.example.ajc_backend.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 
-@SuppressWarnings("deprecation")
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
@@ -29,16 +28,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
        auth.userDetailsService(userDetailService).passwordEncoder(bCryptPasswordEncoder);    
+       System.out.println("JWT = 1");
        }
+	
+
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		System.out.println("JWT = 2");
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.authorizeRequests().antMatchers("/login/**","/add_candidat/**").permitAll();
-		http.authorizeRequests().antMatchers("/list_candidat/**","/dell_candidat/**").hasAuthority("CANDIDAT");
-		http.authorizeRequests().anyRequest().authenticated();
-		http.addFilter(new JWTAuthentificationFilter(authenticationManager()));
-        http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.authorizeRequests().antMatchers("/login","/add_candidat/**","/edit_candidat").permitAll();
+		http.authorizeRequests().antMatchers("/list_candidat/**","/dell_candidat/**","/load_candidat/**").permitAll();
+		//http.authorizeRequests().antMatchers("/list_candidat/**","/dell_candidat/**","/load_candidat/**").hasAuthority("CANDIDAT");
+		//http.authorizeRequests().anyRequest().authenticated();
+		//http.addFilter(new JWTAuthentificationFilter(authenticationManager()));
+       // http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //http.cors().disable();
+
 	}
 }

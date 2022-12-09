@@ -13,5 +13,6 @@ public interface CandidatService {
 	Candidat list_one_candidat(Long oid);
 	Candidat connexion(String user, String pwd);
 	Candidat loadByUserName(String username);
+	Candidat tokenUser(String token);
 
 }
