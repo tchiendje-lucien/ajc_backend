@@ -14,22 +14,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 @RestController
-@CrossOrigin (origins = "*" , exposedHeaders = "**")
+@CrossOrigin("*")
 public class UsersController {
     @Autowired
     UserService userService;
 
-    // @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Requestor-Type", exposedHeaders = "X-Get-Header")
     @GetMapping(path = "/find_user")
     public Users find_user(@RequestHeader(name = "Authorization") String token)
             throws JsonMappingException, JsonProcessingException, IOException {
-                System.out.print(15252);
+        System.out.print(15252);
         return userService.find_user(token);
     }
 
-    // @GetMapping("/find_user")
-    // public Users find_user(HttpServletRequest  head){
-    //             System.out.print("head " + head.getHeader("Authorization"));
-    //     return null;
-    // }
+    @GetMapping("/verified_token")
+    public Users verified_token() {
+        return null;
+    }
 }

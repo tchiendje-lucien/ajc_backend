@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ajc_backend.MessageResponse;
@@ -16,40 +16,35 @@ import com.example.ajc_backend.entites.OffreEmplois;
 import com.example.ajc_backend.services.interfaces.entreprises.CompetenceEmploisServices;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @CrossOrigin("*")
 public class CompetenceEmploisController {
 
-    @Autowired
-    CompetenceEmploisServices competenceEmploisServices;
+        @Autowired
+        CompetenceEmploisServices competenceEmploisServices;
 
-    @PostMapping(path = "/Create_competence", consumes = { "multipart/form-data" })
-    public MessageResponse Create_competence(@RequestPart("competenceOffre") String competenceOffre)
-            throws JsonMappingException, JsonProcessingException, IOException {
-        return competenceEmploisServices.Create_competence(
-                new ObjectMapper().readValue(competenceOffre, CompetenceOffre.class));
-    }
+        @PostMapping(path = "/create_competence")
+        public MessageResponse Create_competence(@RequestBody CompetenceOffre competenceOffre)
+                        throws JsonMappingException, JsonProcessingException, IOException {
+                return competenceEmploisServices.Create_competence(competenceOffre);
+        }
 
-    @PutMapping(path = "/update_competence", consumes = { "multipart/form-data" })
-    public MessageResponse update_competence(@RequestPart("competenceOffre") String competenceOffre)
-            throws JsonMappingException, JsonProcessingException, IOException {
-        return competenceEmploisServices.update_competence(
-                new ObjectMapper().readValue(competenceOffre, CompetenceOffre.class));
-    }
+        @PutMapping(path = "/update_competence")
+        public MessageResponse update_competence(@RequestBody CompetenceOffre competenceOffre)
+                        throws JsonMappingException, JsonProcessingException, IOException {
+                return competenceEmploisServices.update_competence(competenceOffre);
+        }
 
-    @PostMapping(path = "/delete_competence", consumes = { "multipart/form-data" })
-    public MessageResponse delete_competence(@RequestPart("competenceOffre") String competenceOffre)
-            throws JsonMappingException, JsonProcessingException, IOException {
-        return competenceEmploisServices.delete_competence(
-                new ObjectMapper().readValue(competenceOffre, CompetenceOffre.class));
-    }
+        @PostMapping(path = "/delete_competence")
+        public MessageResponse delete_competence(@RequestBody CompetenceOffre competenceOffre)
+                        throws JsonMappingException, JsonProcessingException, IOException {
+                return competenceEmploisServices.delete_competence(competenceOffre);
+        }
 
-    @PostMapping(path = "/list_competence", consumes = { "multipart/form-data" })
-    public List<CompetenceOffre> list_competence(@RequestPart("offreEmplois") String offreEmplois)
-            throws JsonMappingException, JsonProcessingException, IOException {
-        return competenceEmploisServices.list_competence(
-                new ObjectMapper().readValue(offreEmplois, OffreEmplois.class));
-    }
+        @PostMapping(path = "/list_competence")
+        public List<CompetenceOffre> list_competence(@RequestBody OffreEmplois offreEmplois)
+                        throws JsonMappingException, JsonProcessingException, IOException {
+                return competenceEmploisServices.list_competence(offreEmplois);
+        }
 }

@@ -1,5 +1,7 @@
 package com.example.ajc_backend.services.implementations.entreprises;
 
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -7,6 +9,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +21,13 @@ import com.example.ajc_backend.MessageResponse;
 import com.example.ajc_backend.dao.CompetenceOffreRepository;
 import com.example.ajc_backend.dao.MissionsOffreRepository;
 import com.example.ajc_backend.dao.OffreEmploisRepository;
+import com.example.ajc_backend.dao.PostulerOffreRepository;
+import com.example.ajc_backend.entites.ActivitySectors;
 import com.example.ajc_backend.entites.CompetenceOffre;
 import com.example.ajc_backend.entites.EntrepriseAccount;
 import com.example.ajc_backend.entites.MissionsOffre;
 import com.example.ajc_backend.entites.OffreEmplois;
+import com.example.ajc_backend.entites.PostulerOffre;
 import com.example.ajc_backend.services.interfaces.entreprises.OffreServices;
 
 @Service
@@ -32,9 +39,12 @@ public class OffresImplement implements OffreServices {
     MissionsOffreRepository missionsOffreRepository;
     @Autowired
     CompetenceOffreRepository competenceOffreRepository;
+    @Autowired
+    PostulerOffreRepository postulerOffreRepository;
 
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
     LocalDateTime now = LocalDateTime.now();
+    public static String fileDirectry = "C:/Users/l.tchiendje/Documents/ajc-web-site/image_offre/";
 
     @Transactional
     @Override
@@ -44,11 +54,11 @@ public class OffresImplement implements OffreServices {
         // Upload image
         int index = image.getOriginalFilename().lastIndexOf('.');
         String extension = image.getOriginalFilename().substring(index + 1);
-        String filename = "ajsearch_image_" + offreEmplois.getEntrepriseAccount().getOid() + "_"
+        String filename = "ajsearch_image_" + offreEmplois.getEntrepriseAccount().getOid()
                 + "_"
                 + dtf.format(now).toString() + "." + extension;
         byte[] bytes = image.getBytes();
-        String insPath = "C:/Users/l.tchiendje/Documents/ajc-web-site/image_offre/" + filename;
+        String insPath = fileDirectry + filename;
         Files.write(Paths.get(insPath), bytes);
 
         // Save new Offres
@@ -137,7 +147,7 @@ public class OffresImplement implements OffreServices {
                     + "_"
                     + dtf.format(now).toString() + "." + extension;
             byte[] bytes = image.getBytes();
-            String insPath = "C:/Users/l.tchiendje/Documents/ajc-web-site/image_offre/" + filename;
+            String insPath = fileDirectry + filename;
             Files.write(Paths.get(insPath), bytes);
 
             // Update offre
@@ -194,8 +204,62 @@ public class OffresImplement implements OffreServices {
     }
 
     @Override
-    public List<OffreEmplois> list_offre(EntrepriseAccount entrepriseAccount) {
-        return offreEmploisRepository.findByEntrepriseAccount(entrepriseAccount);
+    public List<OffreEmplois> list_offre() {
+        return offreEmploisRepository.listOffre();
+    }
+
+    @Override
+    public void getImageOffre(String filename, HttpServletResponse response) {
+        // String folderPath = "C:/Users/l.tchiendje/Documents/cv-tech/documents/";
+        System.out.println(fileDirectry + filename);
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(response.getOutputStream());
+            try (FileInputStream fis = new FileInputStream(fileDirectry + filename)) {
+                int len;
+                byte[] buf = new byte[1024];
+                while ((len = fis.read(buf)) > 0) {
+                    bos.write(buf, 0, len);
+                }
+            }
+            bos.close();
+            response.flushBuffer();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    @Override
+    public List<OffreEmplois> list_similary_offre(ActivitySectors activitySectors, String pays) {
+        return offreEmploisRepository.findByActivitySectorsAndPays(activitySectors, pays);
+    }
+
+    @Override
+    public MessageResponse postuler_offre(PostulerOffre postulerOffre) {
+        postulerOffre.setCandidat(postulerOffre.getCandidat());
+        postulerOffre.setCreated_at(dtf.format(now));
+        postulerOffre.setOffreEmplois(postulerOffre.getOffreEmplois());
+        postulerOffreRepository.save(postulerOffre);
+        return new MessageResponse("Votre requète a été effectuer avec success", true);
+    }
+
+    @Override
+    public List<OffreEmplois> list_my_offre(EntrepriseAccount entrepriseAccount) {
+        return offreEmploisRepository.listMyOffre(entrepriseAccount);
+    }
+
+    @Override
+    public MessageResponse supprimer_offre(OffreEmplois offreEmplois) {
+        Optional<OffreEmplois> get_offre = offreEmploisRepository.findById(offreEmplois.getOid());
+        if (!get_offre.isEmpty()) {
+            get_offre.get().setDelete(true);
+            get_offre.get().setUpdate_at(dtf.format(now));
+            offreEmploisRepository.save(get_offre.get());
+            return new MessageResponse("Offres supprimé avec success", true);
+
+        } else {
+            return new MessageResponse("L'element recherché n'existe pas", false);
+        }
     }
 
 }

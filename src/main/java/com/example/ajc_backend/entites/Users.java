@@ -6,15 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import java.io.Serializable;

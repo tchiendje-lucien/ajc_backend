@@ -30,11 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests().antMatchers("/login/**", "/add_candidat/**", "/list_ActivitySector/**",
-				"/getCountriesListInAlphabetical/**", "/create_entreprise_withoutLogo**", "/create_entreprise**").permitAll();
+				"/getCountriesListInAlphabetical/**", "/create_entreprise_withoutLogo**", "/create_entreprise**","/imageOffre/{id}**")
+				.permitAll();
 		http.authorizeRequests().antMatchers("/list_candidat/**", "/dell_candidat/**").hasAuthority("CANDIDAT");
-		http.authorizeRequests().antMatchers("/find_user/**", "/list_entrepriseAccounts/**").hasAuthority("Entreprise");
+		http.authorizeRequests().antMatchers("/find_user/**", "/list_entrepriseAccounts/**", "/create_offre/**",
+				"/create_withoutImage/**", "/list_offre/**").hasAuthority("Entreprise");
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(new JWTAuthentificationFilter(authenticationManager()));
 		http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+		http.cors();
 	}
 }

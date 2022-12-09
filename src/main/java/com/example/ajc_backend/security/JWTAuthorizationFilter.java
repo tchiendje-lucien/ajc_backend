@@ -29,7 +29,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 		String jwt = request.getHeader(SecurityParams.JWT_HEADER_NAME);
 
-		response.addHeader("Access-Control-Allow-Origin", "*");
+		// response.addHeader("Access-Control-Allow-Origin", "*");
 		response.addHeader("Access-Control-Allow-Headers",
 				"Origin, Accept, X-Request-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Header-authorization");
 		response.addHeader("Access-Control-Expose-Headers",
@@ -48,6 +48,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 			}
 			JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SecurityParams.SECRET)).build();
 			DecodedJWT decodeJWT = verifier.verify(jwt.substring(SecurityParams.HEADER_PREFIX.length()));
+			// System.out.print(jwt);
 			String username = decodeJWT.getSubject();
 			List<String> roles = decodeJWT.getClaims().get("roles").asList(String.class);
 			Collection<GrantedAuthority> authorities = new ArrayList<>();

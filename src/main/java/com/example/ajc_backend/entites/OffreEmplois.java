@@ -45,4 +45,7 @@ public class OffreEmplois implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "offreEmplois")
     Collection<MissionsOffre> missionsOffres;
+    @JsonIgnore
+    @OneToMany(mappedBy = "offreEmplois")
+    Collection<PostulerOffre> postulerOffres;
 }

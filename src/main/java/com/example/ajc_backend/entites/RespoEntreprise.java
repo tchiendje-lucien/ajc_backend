@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +36,7 @@ public class RespoEntreprise implements Serializable {
     private String function;
     private String created_at;
     private String updated_at;
+    @JsonProperty(access=Access.WRITE_ONLY)
     @ManyToOne
     private EntrepriseAccount entrepriseAccount;
     

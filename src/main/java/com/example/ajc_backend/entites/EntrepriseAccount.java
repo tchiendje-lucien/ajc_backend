@@ -15,7 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -46,13 +45,15 @@ public class EntrepriseAccount implements Serializable {
     private String updated_at;
     @ManyToOne
     private ActivitySectors activitySectors;
-    @JsonProperty(access=Access.WRITE_ONLY)
+    @JsonProperty(access = Access.WRITE_ONLY)
     @OneToOne(cascade = CascadeType.ALL)
     private Users users;
-    @JsonIgnore
     @OneToMany(mappedBy = "entrepriseAccount")
     Collection<RespoEntreprise> respoEntreprises;
     @JsonIgnore
     @OneToMany(mappedBy = "entrepriseAccount")
     Collection<OffreEmplois> offreEmplois;
+    @JsonIgnore
+    @OneToMany(mappedBy = "entrepriseAccount")
+    Collection<DemandeProfil> demandeProfils;
 }

@@ -13,7 +13,7 @@ import com.example.ajc_backend.entites.OffreEmplois;
 import com.example.ajc_backend.services.interfaces.entreprises.CompetenceEmploisServices;
 
 @Service
-public class CompetenceEmploisImplement implements CompetenceEmploisServices{
+public class CompetenceEmploisImplement implements CompetenceEmploisServices {
 
     @Autowired
     CompetenceOffreRepository competenceOffreRepository;
@@ -47,5 +47,5 @@ public class CompetenceEmploisImplement implements CompetenceEmploisServices{
     public List<CompetenceOffre> list_competence(OffreEmplois offreEmplois) {
         return competenceOffreRepository.findByOffreEmplois(offreEmplois);
     }
-    
+
 }
