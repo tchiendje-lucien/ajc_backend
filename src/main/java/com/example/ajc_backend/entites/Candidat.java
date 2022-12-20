@@ -20,18 +20,22 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Candidat {
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long oid;
-	@Column(length=8, nullable=false)
+	@Column(length = 8, nullable = false)
 	private String civilite;
-	@Column(length=150, nullable=false)
+	@Column(length = 150, nullable = false)
 	private String nom;
-	@Column(length=150)
+	@Column(length = 150)
 	private String prenom;
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String email;
 	private String password;
 	private Date datenaissance;
@@ -42,18 +46,21 @@ public class Candidat {
 	private String telephone2;
 	private String role;
 	@OneToOne(cascade = CascadeType.ALL)
-    private Users users;
-	@OneToMany(mappedBy="candidat")
+	private Users users;
+	@OneToMany(mappedBy = "candidat")
 	private Collection<Competence> competence;
-	@OneToMany(mappedBy="candidat")
+	@OneToMany(mappedBy = "candidat")
 	private Collection<Experiencepro> experience;
-	@OneToMany(mappedBy="candidat")
+	@OneToMany(mappedBy = "candidat")
 	private Collection<Langue> langue;
-	@OneToMany(mappedBy="candidat")
+	@OneToMany(mappedBy = "candidat")
 	private Collection<Loisir> loisir;
-	@OneToMany(mappedBy="candidat")
+	@OneToMany(mappedBy = "candidat")
 	private Collection<Scolarite> scolarite;
 	@JsonIgnore
-    @OneToMany(mappedBy = "candidat")
-    private Collection<PostulerOffre> postulerOffres;
+	@OneToMany(mappedBy = "candidat")
+	private Collection<PostulerOffre> postulerOffres;
+	@JsonIgnore
+	@OneToMany(mappedBy = "candidat")
+	private Collection<Chopper> choppers;
 }

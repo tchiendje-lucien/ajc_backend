@@ -25,16 +25,13 @@ public interface EntrpriseAccountService {
         MessageResponse create_entreprise_withoutLogo(EntrepriseAccount entrepriseAccount,
                         List<RespoEntreprise> respoEntreprises, Users users);
 
-        MessageResponse update_entreprise(EntrepriseAccount entrepriseAccount, List<RespoEntreprise> respoEntreprises,
-                        Users users,
+        MessageResponse update_entreprise(EntrepriseAccount entrepriseAccount, 
                         MultipartFile logo) throws IOException;
 
-        MessageResponse update_entreprise_withoutLogo(EntrepriseAccount entrepriseAccount,
-                        List<RespoEntreprise> respoEntreprises, Users users);
+        MessageResponse update_entreprise_withoutLogo(EntrepriseAccount entrepriseAccount);
 
         List<EntrepriseAccount> list_entrepriseAccounts();
 
-        MessageResponse change_password(Users users);
 
-        //Optional<EntrepriseAccount> find_entreprise();
+        // Optional<EntrepriseAccount> find_entreprise();
 }

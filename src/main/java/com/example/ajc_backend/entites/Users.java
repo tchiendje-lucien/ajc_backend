@@ -30,6 +30,8 @@ public class Users implements Serializable {
     // @JsonProperty(access=Access.WRITE_ONLY)
     private String password;
     private String re_password;
+    private String created_at;
+    private String updated_at;
     @OneToOne(mappedBy = "users")
     private EntrepriseAccount entrepriseAccount;
     @OneToOne(mappedBy = "users")

@@ -56,4 +56,7 @@ public class EntrepriseAccount implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "entrepriseAccount")
     Collection<DemandeProfil> demandeProfils;
+    @JsonIgnore
+    @OneToMany(mappedBy = "entrepriseAccount")
+    Collection<Chopper> choppers;
 }

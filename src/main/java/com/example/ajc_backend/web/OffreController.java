@@ -121,10 +121,10 @@ public class OffreController {
                 return Files.readAllBytes(path);
         }
 
-        @PostMapping(path = "/getImageOffre")
-        void getImageOffre(@RequestBody String filename, HttpServletResponse response) {
-                offreServices.getImageOffre(filename, response);
-        }
+        // @PostMapping(path = "/getImageOffre")
+        // void getImageOffre(@RequestBody String filename, HttpServletResponse response) {
+        //         offreServices.getImageOffre(filename, response);
+        // }
 
         @PostMapping(path = "/list_similary_offre")
         public List<OffreEmplois> list_similary_offre(@RequestBody ParemSimilaryOffer paremSimilaryOffer)
