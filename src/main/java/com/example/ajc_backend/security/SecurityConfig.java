@@ -33,7 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/getCountriesListInAlphabetical/**", "/create_entreprise_withoutLogo**", "/create_entreprise**",
 				"/imageOffre/{id}**", "/imageEntreprise/{id}**", "/sendEmail/**")
 				.permitAll();
-		http.authorizeRequests().antMatchers("/list_candidat/**", "/dell_candidat/**").hasAuthority("CANDIDAT");
+		http.authorizeRequests().antMatchers("/list_candidat/**", "/dell_candidat/**","/list_offre/**",
+				"/load_candidat/**").hasAuthority("CANDIDAT");
 		http.authorizeRequests().antMatchers("/find_user/**", "/list_entrepriseAccounts/**", "/create_offre/**",
 				"/create_withoutImage/**").hasAuthority("Entreprise");
 		http.authorizeRequests().anyRequest().authenticated();

@@ -32,6 +32,8 @@ public class Scolariteserviceimplementation implements ScolariteService{
 		scolarite2.get().setNiveau(scolarite.getNiveau());
 		scolarite2.get().setPays(scolarite.getPays());
 		scolarite2.get().setVille(scolarite.getVille());
+		scolarite2.get().setEtablissement(scolarite.getEtablissement());
+		
 		
 		return scolariteRepository.save(scolarite2.get());
 	}

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +25,7 @@ public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long oid;
+    @Column(nullable=false,unique=true)
     private String identifiant;
     private String role;
     // @JsonProperty(access=Access.WRITE_ONLY)
