@@ -1,5 +1,6 @@
 package com.example.ajc_backend.entites;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import lombok.ToString;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @ToString
-public class Scolarite {
+public class Scolarite implements Serializable{
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long oid;
@@ -31,6 +32,8 @@ public class Scolarite {
 	private Date datefin;
 	@Column(length=100, nullable=false)
 	private String domaine;
+	@Column(length=100)
+	private String etablissement;
 	@Column(length=100)
 	private String specialite;
 	@Column(length=50, nullable=false)

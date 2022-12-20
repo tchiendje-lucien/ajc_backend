@@ -12,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ajc_backend.ExceptionMessage;
 import com.example.ajc_backend.entites.Candidat;
 import com.example.ajc_backend.services.interfaces.candidat.CandidatService;
 
@@ -34,8 +37,17 @@ public class CandidatControleur {
 	
 	//////  candidat
 	@PostMapping(value = "/add_candidat")
-	public Candidat add_candidat(@RequestBody Candidat candidat ) {	
-		return candidatService.add_candidat(candidat);
+	public Candidat add_candidat(@RequestBody Candidat candidat ) throws ExceptionMessage{	
+		
+		Candidat candidat2 = null;
+		try {
+			candidat2 = candidatService.add_candidat(candidat);
+		} catch (ExceptionMessage e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e.getMessage());
+		}
+		
+		return candidat2;
 	}
 	
 	@PostMapping(value = "/edit_candidat")
@@ -51,14 +63,20 @@ public class CandidatControleur {
 		return candidatService.list_candidat();
 	}
 	
+	@GetMapping(value = "/detail_one_candidat/{oidcandidat}")
+	public Candidat detail_one_candidat(@PathVariable("oidcandidat") Long oidcandidat) {	
+		return candidatService.list_one_candidat(oidcandidat);
+	}
+	
 	
 	@GetMapping(value = "/load_candidat")
 	public Candidat load_candidat(@RequestHeader(name = "Authorization") String token) {	
 		System.out.println("Token = "+token);
-		String user=candidatService.tokenUser(token).getEmail();
+		String user=candidatService.tokenUser(token).getIdentifiant();
 		System.out.println("User = "+user);
 		return candidatService.loadByUserName(user);
 	}
+	
 	@PostMapping(value = "/connexion_candidat")
 	public Candidat connexion_candidat(@RequestBody User user) {	
 	

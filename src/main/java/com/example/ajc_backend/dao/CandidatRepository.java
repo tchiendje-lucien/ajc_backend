@@ -15,5 +15,5 @@ public interface CandidatRepository extends JpaRepository<Candidat, Long>{
 	Optional<Candidat> findByUsernameAndPwd(String email, String pwd);
 	
 	@Query(value="select c from Candidat c where c.email=?1")
-	Candidat findByUsername(String email);
+	Optional<Candidat> findByUsername(String email);
 }
