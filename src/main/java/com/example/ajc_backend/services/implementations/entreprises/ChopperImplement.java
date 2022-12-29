@@ -21,7 +21,7 @@ public class ChopperImplement implements ChopperService {
     @Autowired
     ChopperRepository chopperRepository;
 
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
 
     @Override
@@ -49,7 +49,7 @@ public class ChopperImplement implements ChopperService {
 
     @Override
     public List<Chopper> list_chopper(EntrepriseAccount entrepriseAccount) {
-        return chopperRepository.findByEntrepriseAccount(entrepriseAccount);
+        return chopperRepository.listMyChopperProfile(entrepriseAccount);
     }
 
 }

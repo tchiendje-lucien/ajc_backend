@@ -33,15 +33,14 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
     @Autowired
     UsersRepository usersRepository;
 
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
 
     @Override
     @Transactional
     public MessageResponse create_entreprise(EntrepriseAccount entrepriseAccount,
             List<RespoEntreprise> respoEntreprises, Users users, MultipartFile logo) throws IOException {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
-        LocalDateTime now = LocalDateTime.now();
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (usersRepository.findByIdentifiant(users.getIdentifiant()).isPresent()) {
@@ -99,8 +98,6 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
     public MessageResponse create_entreprise_withoutLogo(EntrepriseAccount entrepriseAccount,
             List<RespoEntreprise> respoEntreprises, Users users) {
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
-        LocalDateTime now = LocalDateTime.now();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (usersRepository.findByIdentifiant(users.getIdentifiant()).isPresent()) {
@@ -192,8 +189,6 @@ public class EntrpriseAccountImplement implements EntrpriseAccountService {
     @Transactional
     public MessageResponse update_entreprise_withoutLogo(EntrepriseAccount entrepriseAccount) {
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
-        LocalDateTime now = LocalDateTime.now();
 
         // Update entreprise
         Optional<EntrepriseAccount> get_entreprise = entrepriseAccountRepository

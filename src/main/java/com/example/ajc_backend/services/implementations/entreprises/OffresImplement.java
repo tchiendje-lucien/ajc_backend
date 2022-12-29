@@ -42,7 +42,7 @@ public class OffresImplement implements OffreServices {
     @Autowired
     PostulerOffreRepository postulerOffreRepository;
 
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
     public static String fileDirectry = "C:/Users/l.tchiendje/Documents/ajc-web-site/image_offre/";
 
